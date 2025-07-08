@@ -42,8 +42,10 @@ export const Home = () => {
         <p className="text-[#8C8E93] font-normal text-sm">
           vamos deixar de procastinar?
         </p>
+
         <hr className="my-5" />
-        <div className="flex justify-between items-end gap-4 mb-[30px]">
+
+        <div className="flex sm:flex-row flex-col-reverse justify-between items-start sm:items-end gap-4 mb-[30px]">
           <span className="text-[#8C8E93] text-sm">
             {tasks.filter((t) => t.done).length} Concluídos
           </span>
@@ -61,7 +63,9 @@ export const Home = () => {
             className="inline-flex items-center gap-3 p-2 cursor-pointer"
             onClick={() => toggleTask(task.id)}
           >
-            {task.done ? <CheckedIcon /> : <UncheckedIcon />}
+            <span className="flex-shrink-0 w-6 h-6">
+              {task.done ? <CheckedIcon /> : <UncheckedIcon />}
+            </span>
 
             <span
               className={cn(
