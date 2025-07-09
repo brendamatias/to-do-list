@@ -67,5 +67,6 @@ Este projeto está sob a licença [MIT](./LICENSE).
 
 ## ✨ Autor
 
-Feito com 💜 por [Brenda Matias](https://github.com/brendamatias)
+Feito com 💜 por [Brenda Matias](https://github.com/brendamatias)<br />
 [🔗 LinkedIn](https://www.linkedin.com/in/brendamatias/)
+
