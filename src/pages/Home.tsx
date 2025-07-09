@@ -12,6 +12,7 @@ export const Home = () => {
   const [editingId, setEditingId] = useState<number | null>(null);
   const [editedText, setEditedText] = useState("");
   const [newTask, setNewTask] = useState("");
+  const [hideCompleted, setHideCompleted] = useState(false);
 
   const handleAddTask = () => {
     const title = newTask.trim();
@@ -61,6 +62,10 @@ export const Home = () => {
     setEditedText("");
   };
 
+  const visibleTasks = hideCompleted
+    ? tasks.filter((task) => !task.done)
+    : tasks;
+
   return (
     <div className="flex flex-col h-full">
       <div>
@@ -73,9 +78,12 @@ export const Home = () => {
 
         <div className="flex sm:flex-row flex-col-reverse justify-between items-start sm:items-end gap-4 mb-[30px]">
           <span className="text-[#8C8E93] text-sm">
-            {tasks.filter((t) => t.done).length} Concluídos
+            {tasks.filter((t) => t.done).length}/{tasks?.length} Concluídos
           </span>
-          <Button variant="secondary">
+          <Button
+            variant="secondary"
+            onClick={() => setHideCompleted((prev) => !prev)}
+          >
             <NoEyeIcon />
             Ocultar concluídos
           </Button>
@@ -83,7 +91,7 @@ export const Home = () => {
       </div>
 
       <ul className="flex-1 overflow-y-auto flex flex-col items-start gap-5 pr-2">
-        {tasks.map((task) => (
+        {visibleTasks?.map((task) => (
           <li
             key={task.id}
             className="flex justify-between gap-4 items-center w-full"
