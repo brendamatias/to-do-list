@@ -1,8 +1,8 @@
-<h1 align="center">🕹️ Nome do projeto</h1>
-<p align="center">Breve descrição.</p>
+<h1 align="center">📝 To-Do List</h1>
+<p align="center">Crie, visualize e conclua suas tarefas com facilidade.</p>
 
 <p align="center">
-  🔗 <a href="https://url" target="_blank"><strong>Visualizar projeto</strong></a>
+  🔗 <a href="https://to-do-list.codaki.com.br/" target="_blank"><strong>Visualizar projeto</strong></a>
 </p>
 
 ---
@@ -35,10 +35,10 @@
 
 ```bash
 # Clone o repositório
-git clone https://github.com/brendamatias/seu-projeto.git
+git clone https://github.com/brendamatias/to-do-list.git
 
 # Acesse a pasta do projeto
-cd seu-projeto
+cd to-do-list
 
 # Instale as dependências
 npm install

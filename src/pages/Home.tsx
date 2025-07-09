@@ -5,10 +5,12 @@ import UncheckedIcon from "@/assets/check-outline.svg?react";
 import { cn } from "@/lib";
 import { useState } from "react";
 import { loadFromStorage, saveToStorage } from "@/utils";
+import { X } from "lucide-react";
 
 export const Home = () => {
   const [tasks, setTasks] = useState<Task[]>(loadFromStorage());
-
+  const [editingId, setEditingId] = useState<number | null>(null);
+  const [editedText, setEditedText] = useState("");
   const [newTask, setNewTask] = useState("");
 
   const handleAddTask = () => {
@@ -33,6 +35,30 @@ export const Home = () => {
     );
     setTasks(updated);
     saveToStorage(updated);
+  };
+
+  const deleteTask = (id: number) => {
+    const updated = tasks.filter((task) => task.id !== id);
+    setTasks(updated);
+    saveToStorage(updated);
+  };
+
+  const startEdit = (task: Task) => {
+    setEditingId(task.id);
+    setEditedText(task.title);
+  };
+
+  const saveEdit = () => {
+    if (editingId === null) return;
+
+    const updated = tasks.map((task) =>
+      task.id === editingId ? { ...task, title: editedText } : task
+    );
+
+    setTasks(updated);
+    saveToStorage(updated);
+    setEditingId(null);
+    setEditedText("");
   };
 
   return (
@@ -60,21 +86,46 @@ export const Home = () => {
         {tasks.map((task) => (
           <li
             key={task.id}
-            className="inline-flex items-center gap-3 p-2 cursor-pointer"
-            onClick={() => toggleTask(task.id)}
+            className="flex justify-between gap-4 items-center w-full"
           >
-            <span className="flex-shrink-0 w-6 h-6">
-              {task.done ? <CheckedIcon /> : <UncheckedIcon />}
-            </span>
+            <div className="flex items-center gap-3 p-2 flex-1">
+              <span
+                className="flex-shrink-0 w-6 h-6 cursor-pointer"
+                onClick={() => toggleTask(task.id)}
+              >
+                {task.done ? <CheckedIcon /> : <UncheckedIcon />}
+              </span>
 
-            <span
-              className={cn(
-                "text-md text-[#F4F6FA]",
-                task.done && "line-through text-[#8C8E93]"
+              {editingId === task.id ? (
+                <input
+                  className="bg-transparent border-b w-full border-white text-white focus:outline-none text-md"
+                  value={editedText}
+                  onChange={(e) => setEditedText(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") saveEdit();
+                  }}
+                  onBlur={saveEdit}
+                  autoFocus
+                />
+              ) : (
+                <span
+                  className={cn(
+                    "text-md text-[#F4F6FA] cursor-pointer",
+                    task.done && "line-through text-[#8C8E93]"
+                  )}
+                  onClick={() => startEdit(task)}
+                >
+                  {task.title}
+                </span>
               )}
+            </div>
+
+            <button
+              onClick={() => deleteTask(task.id)}
+              className="text-[#8C8E93] hover:text-white cursor-pointer"
             >
-              {task.title}
-            </span>
+              <X size={16} />
+            </button>
           </li>
         ))}
       </ul>
